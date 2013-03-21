@@ -75,7 +75,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                 document.getElementById("paperkeyarea").appendChild(div);
                 ninja.wallets.paperwallet.generateNewWallet(i);
                 ninja.wallets.paperwallet.remaining--;
-                setTimeout(ninja.wallets.paperwallet.batch, 0);
+                setTimeout(ninja.wallets.paperwallet.batch, 50);
             }
             else
             {

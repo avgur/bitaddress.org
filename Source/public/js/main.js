@@ -63,9 +63,6 @@ require([
         ninja.translator.update();
     }
     
-    console.log(ninja.getQueryString());
-    
-    
     // testnet, check if testnet edition should be activated
     var testnet = ninja.getQueryString().testnet;
     if (testnet == "true" || testnet == "1") {
@@ -80,5 +77,5 @@ require([
 
     // if users does not move mouse after random amount of time then generate the key anyway.
     ninja.seeder.scheduleForceGenerate();
-    //ninja.seeder.forceGenerate();
+    // ninja.seeder.forceGenerate();
 });
