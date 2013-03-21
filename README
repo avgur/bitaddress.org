@@ -26,15 +26,15 @@ of others. The individual copyrights are included throughout the document along 
 licenses. Included JavaScript libraries are separated with HTML script tags.
 
 Summary of JavaScript functions with a redistributable license:
-JavaScript function		License
--------------------		--------------
-Array.prototype.map		Public Domain
-      .Crypto			BSD License
-      .SecureRandom		BSD License
-      .EllipticCurve	BSD License
-      .BigInteger		BSD License
-      .QRCode			MIT License
-      .Bitcoin			MIT License
+JavaScript function     License
+-------------------     --------------
+Array.prototype.map     Public Domain
+      .Crypto           BSD License
+      .SecureRandom     BSD License
+      .EllipticCurve    BSD License
+      .BigInteger       BSD License
+      .QRCode           MIT License
+      .Bitcoin          MIT License
 
 The bitaddress.org software is available under The MIT License (MIT)
 Copyright (c) 2011-2012 bitaddress.org
