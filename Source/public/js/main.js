@@ -46,19 +46,22 @@ require([
     addEvent(window.document.body, 'click', SecureRandom.seedTime);
     addEvent(window.document.body, 'keypress', SecureRandom.seedTime);
     addEvent(window.document.body, 'mousemove', ninja.seeder.seed);
-
-    if (ninja.getQueryString()["unittests"] == "true" || ninja.getQueryString()["unittests"] == "1") {
+    
+    var unittests = ninja.getQueryString().unittests;
+    if (unittests == "true" || unittests == "1") {
         ninja.unitTests.runTests();
         ninja.translator.showEnglishJson();
     }
 
     // change language
-    if (ninja.getQueryString()["culture"] != undefined) {
-        ninja.translator.translate(ninja.getQueryString()["culture"]);
+    var culture = ninja.getQueryString().culture;
+    if (culture !== undefined) {
+        ninja.translator.translate(culture);
     }
 
     // testnet, check if testnet edition should be activated
-    if (ninja.getQueryString()["testnet"] == "true" || ninja.getQueryString()["testnet"] == "1") {
+    var testnet = ninja.getQueryString().testnet;
+    if (testnet == "true" || testnet == "1") {
         document.getElementById("testnet").innerHTML = ninja.translator.get("testneteditionactivated");
         document.getElementById("testnet").style.display = "block";
         document.getElementById("detailwifprefix").innerHTML = "'9'";

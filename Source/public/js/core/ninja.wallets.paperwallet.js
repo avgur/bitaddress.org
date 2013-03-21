@@ -11,7 +11,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
             if (limitElement && limitElement.value < 1) {
                 limitElement.value = pageBreakAt;
             }
-            if (document.getElementById("paperkeyarea").innerHTML == "") {
+            if (document.getElementById("paperkeyarea").innerHTML === "") {
                 ninja.wallets.paperwallet.build(pageBreakAt, pageBreakAt, !document.getElementById('paperart').checked);
             }
         },
@@ -51,7 +51,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     div.innerHTML = ninja.wallets.paperwallet.templateHtml(i);
                     div.setAttribute("class", "keyarea");
                 }
-                if (paperArea.innerHTML != "") {
+                if (paperArea.innerHTML !== "") {
                     // page break
                     if (i % pageBreakAt == 1 && ninja.wallets.paperwallet.count >= pageBreakAt) {
                         var pBreak = document.createElement("div");

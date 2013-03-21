@@ -33,7 +33,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     // add both public keys together
                     if (document.getElementById("vanityradioadd").checked) {
                         var pubKeyByteArray = ninja.publicKey.getByteArrayFromAdding(input1KeyString, input2KeyString);
-                        if (pubKeyByteArray == null) {
+                        if (pubKeyByteArray === null) {
                             alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
                         } else {
                             privateKeyWif = ninja.translator.get("vanityprivatekeyonlyavailable");
@@ -59,7 +59,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     else {
                         pubKeyCombined = ninja.publicKey.getByteArrayFromMultiplying(pubKeyHex, ecKey);
                     }
-                    if (pubKeyCombined == null) {
+                    if (pubKeyCombined === null) {
                         alert(ninja.translator.get("vanityalertinvalidinputpublickeysmatch"));
                     } else {
                         bitcoinAddress = ninja.publicKey.getBitcoinAddressFromByteArray(pubKeyCombined);
@@ -77,7 +77,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     else {
                         combinedPrivateKey = ninja.privateKey.getECKeyFromMultiplying(input1KeyString, input2KeyString);
                     }
-                    if (combinedPrivateKey == null) {
+                    if (combinedPrivateKey === null) {
                         alert(ninja.translator.get("vanityalertinvalidinputprivatekeysmatch"));
                     } else {
                         bitcoinAddress = combinedPrivateKey.getBitcoinAddress();

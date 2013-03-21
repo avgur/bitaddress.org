@@ -17,7 +17,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                     resultBool = false;
                 }
                 var passFailStr;
-                if (resultBool == true) {
+                if (resultBool === true) {
                     passFailStr = "pass";
                     passCount++;
                 } else {
@@ -39,7 +39,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
             testIsPublicKeyHexFormat: function() {
                 var key = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
                 var bool = ninja.publicKey.isPublicKeyHexFormat(key);
-                if (bool != true) {
+                if (bool !== true) {
                     return false;
                 }
                 return true;
@@ -100,7 +100,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
                 var key2 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
                 var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
-                if (bytes != null) {
+                if (bytes !== null) {
                     return false;
                 }
                 return true;
@@ -109,7 +109,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
                 var key2 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
                 var bytes = ninja.publicKey.getByteArrayFromAdding(key1, key2);
-                if (bytes != null) {
+                if (bytes !== null) {
                     return false;
                 }
                 return true;
@@ -146,7 +146,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44";
                 var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
-                if (bytes != null) {
+                if (bytes !== null) {
                     return false;
                 }
                 return true;
@@ -155,7 +155,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5";
                 var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
                 var bytes = ninja.publicKey.getByteArrayFromMultiplying(key1, new Bitcoin.ECKey(key2));
-                if (bytes != null) {
+                if (bytes !== null) {
                     return false;
                 }
                 return true;
@@ -202,7 +202,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
             testBadKeyReturnsNullPrivFromECKey: function() {
                 var key = "bad key";
                 var ecKey = new Bitcoin.ECKey(key);
-                if (ecKey.priv != null) {
+                if (ecKey.priv !== null) {
                     return false;
                 }
                 return true;
@@ -237,8 +237,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
             testWifToPubKeyHex: function() {
                 var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var btcKey = new Bitcoin.ECKey(key);
-                if (btcKey.getPubKeyHex() != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44"
-                    || btcKey.getPubPoint().compressed != false) {
+                if (btcKey.getPubKeyHex() != "0478982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB521F054FAD982AF4CC1933AFD1F1B563EA779A6AA6CCE36A30B947DD653E63E44" || btcKey.getPubPoint().compressed !== false) {
                     return false;
                 }
                 return true;
@@ -247,8 +246,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var btcKey = new Bitcoin.ECKey(key);
                 btcKey.setCompressed(true);
-                if (btcKey.getPubKeyHex() != "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5"
-                    || btcKey.getPubPoint().compressed != true) {
+                if (btcKey.getPubKeyHex() != "0278982F40FA0C0B7A55717583AFC99A4EDFD301A2729DC59B0B8EB9E18692BCB5" || btcKey.getPubPoint().compressed !== true) {
                     return false;
                 }
                 return true;
@@ -272,8 +270,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
             testCompressedWifToECKey: function() {
                 var key = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
                 var btcKey = new Bitcoin.ECKey(key);
-                if (btcKey.getBitcoinWalletImportFormat() != "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S"
-                    || btcKey.getPubPoint().compressed != true) {
+                if (btcKey.getBitcoinWalletImportFormat() != "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S" || btcKey.getPubPoint().compressed !== true) {
                     return false;
                 }
                 return true;
@@ -334,7 +331,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
-                if (ecKey != null) {
+                if (ecKey !== null) {
                     return false;
                 }
                 return true;
@@ -343,7 +340,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
                 var ecKey = ninja.privateKey.getECKeyFromAdding(key1, key2);
-                if (ecKey != null) {
+                if (ecKey !== null) {
                     return false;
                 }
                 return true;
@@ -379,7 +376,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var key2 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
-                if (ecKey != null) {
+                if (ecKey !== null) {
                     return false;
                 }
                 return true;
@@ -388,7 +385,7 @@ define(["ninja", "Bitcoin", "Crypto", "EllipticCurve"], function (ninja, Bitcoin
                 var key1 = "5J8QhiQtAiozKwyk3GCycAscg1tNaYhNdiiLey8vaDK8Bzm4znb";
                 var key2 = "KxbhchnQquYQ2dfSxz7rrEaQTCukF4uCV57TkamyTbLzjFWcdi3S";
                 var ecKey = ninja.privateKey.getECKeyFromMultiplying(key1, key2);
-                if (ecKey != null) {
+                if (ecKey !== null) {
                     return false;
                 }
                 return true;

@@ -70,7 +70,7 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
         },
 
         createCanvas: function(text, sizeMultiplier) {
-            sizeMultiplier = (sizeMultiplier == undefined) ? 2 : sizeMultiplier; // default 2
+            sizeMultiplier = (sizeMultiplier === undefined) ? 2 : sizeMultiplier; // default 2
             // create the qrcode itself
             var typeNumber = ninja.qrCode.getTypeNumber(text);
             var qrcode = new QRCode(typeNumber, QRCode.ErrorCorrectLevel.H);
@@ -153,7 +153,7 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
 
     ninja.getQueryString = function() {
         var result = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
-        while (m = re.exec(queryString)) {
+        while ((m = re.exec(queryString)) !== null) {
             result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
         }
         return result;

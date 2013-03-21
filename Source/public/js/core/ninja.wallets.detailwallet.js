@@ -19,7 +19,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                 document.getElementById("detailmini").style.display = "none";
             }
             var btcKey = new Bitcoin.ECKey(key);
-            if (btcKey.priv == null) {
+            if (btcKey.priv === null) {
                 // enforce a minimum passphrase length
                 if (key.length >= ninja.wallets.brainwallet.minPassphraseLength) {
                     // Deterministic Wallet confirm box to ask if user wants to SHA256 the input to get a private key
@@ -35,7 +35,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     ninja.wallets.detailwallet.clear();
                 }
             }
-            if (btcKey.priv != null) {
+            if (btcKey.priv !== null) {
                 btcKey.setCompressed(false);
                 document.getElementById("detailprivhex").innerHTML = btcKey.toString().toUpperCase();
                 document.getElementById("detailprivb64").innerHTML = btcKey.toString("base64");

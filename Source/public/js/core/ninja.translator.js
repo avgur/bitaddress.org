@@ -264,8 +264,8 @@ define(["ninja"], function(ninja) {
     };
 
     ninja.translator.showEnglishJson = function() {
-        var english = ninja.translator.translations["en"];
-        var spanish = ninja.translator.translations["es"];
+        var english = ninja.translator.translations.en;
+        var spanish = ninja.translator.translations.es;
         var spanishClone = {};
         var key;
         for (key in spanish) {

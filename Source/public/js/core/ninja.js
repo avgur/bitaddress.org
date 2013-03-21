@@ -44,12 +44,12 @@ define(["Bitcoin", "EllipticCurve", "Crypto"], function (Bitcoin, EllipticCurve,
         // 130 characters [0-9A-F] starts with 04
         isUncompressedPublicKeyHexFormat: function(key) {
             key = key.toString();
-            return /^04[A-Fa-f0-9]{128}$/.test(key);
+            return (/^04[A-Fa-f0-9]{128}$/).test(key);
         },
         // 66 characters [0-9A-F] starts with 02 or 03
         isCompressedPublicKeyHexFormat: function(key) {
             key = key.toString();
-            return /^0[2-3][A-Fa-f0-9]{64}$/.test(key);
+            return (/^0[2-3][A-Fa-f0-9]{64}$/).test(key);
         },
         getBitcoinAddressFromByteArray: function(pubKeyByteArray) {
             var pubKeyHash = Bitcoin.Util.sha256ripe160(pubKeyByteArray);

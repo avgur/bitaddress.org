@@ -2,7 +2,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.bulkwallet = {
         open: function () {
             // show a default CSV list if the text area is empty
-            if (document.getElementById("bulktextarea").value == "") {
+            if (document.getElementById("bulktextarea").value === "") {
                 // return control of the thread to the browser to render the tab switch UI then build a default CSV list
                 setTimeout(function() { ninja.wallets.bulkwallet.buildCSV(3, 1); }, 200);
             }
@@ -41,7 +41,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                     + ",\"" + key.getBitcoinAddress() + "\",\"" + key.toString("wif")
                     //+	"\",\"" + key.toString("wifcomp")    // uncomment these lines to add different private key formats to the CSV
                     //+ "\",\"" + key.getBitcoinHexFormat() 
-                //+ "\",\"" + key.toString("base64") 
+                    //+ "\",\"" + key.toString("base64") 
                     + "\"");
 
                 document.getElementById("bulktextarea").value = ninja.translator.get("bulkgeneratingaddresses") + bulkWallet.csvRowsRemaining;

@@ -1,7 +1,7 @@
 define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.singlewallet = {
         open: function() {
-            if (document.getElementById("btcaddress").innerHTML == "") {
+            if (document.getElementById("btcaddress").innerHTML === "") {
                 ninja.wallets.singlewallet.generateNewAddressAndKey();
             }
         },
