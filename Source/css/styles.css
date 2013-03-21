@@ -1,5 +1,6 @@
 body { overflow-y: scroll; }
 
+.container { width: 940px; }
 #testnet { display: none;font-weight: bold; }
 #menu { visibility: hidden;margin-bottom: 0; }
         

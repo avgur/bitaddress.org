@@ -69,7 +69,6 @@ require([
     }
 
     // if users does not move mouse after random amount of time then generate the key anyway.
-    ninja.seeder.forceGenerate();
-    
-    //setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 20);
+    // ninja.seeder.forceGenerate();
+    setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 20);
 });
