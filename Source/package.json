@@ -1,0 +1,12 @@
+{
+    "name": "bcwgenerator",
+    "version": "0.0.1",
+    "dependencies": {
+        "underscore": "*", 
+        "node-static": ""
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    }
+}

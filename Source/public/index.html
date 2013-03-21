@@ -1,0 +1,346 @@
+﻿<!doctype html>
+<html>
+<head>
+	<!--
+	Notice of Copyrights and Licenses:
+	***********************************
+	The bitaddress.org project, software and embedded resources are copyright bitaddress.org. 
+	The bitaddress.org name and logo are not part of the open source license.
+
+	Portions of the all-in-one HTML document contain JavaScript codes that are the copyrights of others. 
+	The individual copyrights are included throughout the document along with their licenses.
+	Included JavaScript libraries are separated with HTML script tags.
+
+	Summary of JavaScript functions with a redistributable license:
+	JavaScript function		License
+	*******************		***************
+	Array.prototype.map		Public Domain
+	      .Crypto			BSD License
+	      .SecureRandom		BSD License
+	      .EllipticCurve	BSD License
+	      .BigInteger		BSD License
+	      .QRCode			MIT License
+	      .Bitcoin			MIT License
+
+	The bitaddress.org software is available under The MIT License (MIT)
+	Copyright (c) 2011-2012 bitaddress.org
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+	associated documentation files (the "Software"), to deal in the Software without restriction, including 
+	without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+	sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject 
+	to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial 
+	portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	-->
+
+	<title>Bitcoin Wallet Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="js/libs/crypto/map.js" type="text/javascript" ></script>
+    <script src="js/libs/require/require.js" type="text/javascript" data-main="js/main" ></script>
+    
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+    <body>
+        <div id="main" class="container">
+
+            <ul id="culturemenu" class="nav nav-pills pull-right">
+                <li class="active"><a href="?culture=en" id="cultureen">English</a></li>
+                <li><a href="?culture=es" id="culturees">Espanol</a></li>
+                <li><a href="?culture=fr" id="culturefr">Francais</a></li>
+            </ul>
+
+            <h4 class="muted">Bitcoin Wallet Generator</h4>
+
+            <div id="testnet" class="alert alert-info"></div>
+            
+            <ul class="nav nav-tabs" id="menu">
+                <li><a id="singlewallet" href="#singlearea" data-toggle="tab">Single Wallet</a></li>
+                <li><a id="paperwallet"  href="#paperarea"  data-toggle="tab">Paper Wallet</a></li>
+                <li><a id="bulkwallet"   href="#bulkarea"   data-toggle="tab">Bulk Wallet</a></li>
+                <li><a id="brainwallet"  href="#brainarea"  data-toggle="tab">Brain Wallet</a></li>
+                <li><a id="vanitywallet" href="#vanityarea" data-toggle="tab">Vanity Wallet</a></li>
+                <li><a id="detailwallet" href="#detailarea" data-toggle="tab">Wallet Details</a></li>
+            </ul>
+            
+            <div id="generate" class="alert alert-block">
+                <h4 id="generatelabelbitcoinaddress">Generating Bitcoin Address...</h4>
+                <span id="generatelabelmovemouse">MOVE your mouse around to add some extra randomness...</span>
+            </div>
+            
+            <div id="wallets" class="tab-content">
+                <div class="tab-pane" id="singlearea">
+                    <div class="commands">
+                        <div id="singlecommands">
+                            <button type="button" class="btn" id="newaddress" onclick="ninja.wallets.singlewallet.generateNewAddressAndKey();"><i class="icon-refresh"></i> Generate New Address</button>
+                            <button type="button" class="btn pull-right" name="print" id="singleprint" onclick="window.print();"><i class="icon-print"></i> Print</button>
+                        </div>
+                    </div>
+                    <div id="keyarea" class="keyarea">
+                        <div>
+                            <div id="qrcode_public" class="qrcode_public"></div>
+                            <div class="pubaddress">
+                                <span class="label" id="singlelabelbitcoinaddress">Bitcoin Address:</span>
+                                <span class="output" id="btcaddress"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="qrcode_private" class="qrcode_private"></div>
+                            <div class="privwif">
+                                <span class="label" id="singlelabelprivatekey">Private Key (Wallet Import Format):</span>
+                                <span class="output" id="btcprivwif"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="paperarea">
+                    <div id="papercommands" class="commands">
+                        <form class="form-inline">
+                            <span class="control-group">
+                                <label class="checkbox" id="paperlabelhideart" for="paperart">Hide Art?</label>
+                                <input type="checkbox" id="paperart" onchange="ninja.wallets.paperwallet.toggleArt(this);" checked="checked" /> 
+                            </span>
+                            <span class="control-group">
+                                <label id="paperlabeladdressesperpage" for="paperlimitperpage">Addresses per page:</label> 
+                                <input type="text" id="paperlimitperpage" class="input-mini" />
+                            </span>
+                            <span class="control-group">
+                                <label id="paperlabeladdressestogenerate" for="paperlimit">Addresses to generate:</label> 
+                                <input type="text" id="paperlimit" class="input-mini" />
+                            </span>
+                            <button type="button" id="papergenerate" class="btn" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked);" ><i class="icon-refresh"></i> Generate</button>
+                            <button type="button" class="btn pull-right" name="print" id="paperprint" onclick="window.print();"><i class="icon-print"></i> Print</button>
+                        </form>
+                    </div>
+                    <div id="paperkeyarea"></div>
+                </div>
+                <div class="tab-pane" id="bulkarea">
+                    <div id="bulkcommands" class="commands">
+                        <form class="form-inline">
+                            <span class="control-group">
+                                <label id="bulklabelstartindex" for="bulkstartindex">Start index:</label> 
+                                <input type="text" id="bulkstartindex" value="1"  class="input-mini" />
+                            </span>
+                            <span class="control-group">
+                                <label id="bulklabelrowstogenerate" for="bulklimit">Rows to generate:</label> 
+                                <input type="text" id="bulklimit" value="3"  class="input-mini" />
+                            </span>
+                            
+                            <button type="button" id="bulkgenerate" class="btn" onclick="ninja.wallets.bulkwallet.buildCSV(document.getElementById('bulklimit').value * 1, document.getElementById('bulkstartindex').value * 1);" ><i class="icon-refresh"></i> Generate</button>
+                            <button type="button" class="btn pull-right" name="print" id="bulkprint" onclick="window.print();"><i class="icon-print"></i> Print</button>
+                        </form>
+                    </div>
+                    <div class="body">
+                        <span class="label" id="bulklabelcsv">Comma Separated Values:</span> 
+                        <span class="format" id="bulklabelformat">Index,Address,Private Key (WIF)</span>
+                        <textarea rows="20" cols="88" id="bulktextarea"></textarea>
+                    </div>
+                    <div class="faqs">
+                        <div id="bulkfaq1" class="bulkfaq"> 
+                            <div id="bulkq1" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(1);">
+                                <span id="bulklabelq1">Why should I use a Bulk Wallet to accept Bitcoins on my website?</span>
+                                <div id="bulke1" class="more"></div>
+                            </div>
+                            <div id="bulka1" class="bulkanswer">The traditional approach to accepting bitcoins on your website requires that you install the official bitcoin client daemon ("bitcoind"). Many website hosting packages don't support installing the bitcoin daemon. Also, running the bitcoin daemon on your web server means your private keys are hosted on the server and could get stolen if your web server is hacked. When using a Bulk Wallet you can upload only the bitcoin addresses and not the private keys to your web server. Then you don't have to worry about your bitcoin wallet being stolen if your web server is hacked. </div>
+                        </div>
+                        <div id="bulkfaq2" class="bulkfaq"> 
+                            <div id="bulkq2" class="bulkquestion" onclick="ninja.wallets.bulkwallet.openCloseFaq(2);">
+                                <span id="bulklabelq2">How do I use a Bulk Wallet to accept Bitcoins on my website?</span>
+                                <div id="bulke2" class="more"></div>
+                            </div>
+                            <div id="bulka2" class="bulkanswer">
+                                <ol>
+                                    <li id="bulklabela2li1">Use the Bulk Wallet tab to pre-generate a large number of bitcoin addresses (10,000+). Copy and paste the generated comma separated values (CSV) list to a secure text file on your computer. Backup the file you just created to a secure location.</li>
+                                    <li id="bulklabela2li2">Import the bitcoin addresses into a database table on your web server. (Don't put the wallet/private keys on your web server, otherwise you risk hackers stealing your coins. Just the bitcoin addresses as they will be shown to customers.)</li>
+                                    <li id="bulklabela2li3">Provide an option on your website's shopping cart for your customer to pay in Bitcoin. When the customer chooses to pay in Bitcoin you will then display one of the addresses from your database to the customer as his "payment address" and save it with his shopping cart order.</li>
+                                    <li id="bulklabela2li4">You now need to be notified when the payment arrives. Google "bitcoin payment notification" and subscribe to at least one bitcoin payment notification service. There are various services that will notify you via Web Services, API, SMS, Email, etc. Once you receive this notification, which could be programmatically automated, you can process the customer's order. To manually check if a payment has arrived you can use Block Explorer. Replace THEADDRESSGOESHERE with the bitcoin address you are checking. It could take between 10 minutes to one hour for the transaction to be confirmed.<br />http://www.blockexplorer.com/address/THEADDRESSGOESHERE<br /><br />Unconfirmed transactions can be viewed at: http://blockchain.info/ <br />You should see the transaction there within 30 seconds.</li>
+                                    <li id="bulklabela2li5">Bitcoins will safely pile up on the block chain. Use the original wallet file you generated in step 1 to spend them.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="brainarea">
+                    <div id="braincommands" class="commands">
+                        <form class="form-horizontal">
+                            <button type="button" class="btn pull-right" name="print" id="brainprint" onclick="window.print();"><i class="icon-print"></i> Print</button>
+                            <div class="control-group">
+                                <label class="control-label" id="brainlabelenterpassphrase" for="brainpassphrase">Enter Passphrase: </label>
+                                <div class="controls">
+                                    <input class="input-xlarge" tabindex="1" type="password" id="brainpassphrase" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
+                                    
+                                    <label class="checkbox inline" id="brainlabelshow" for="brainpassphraseshow">Show?</label> 
+                                    <input type="checkbox" id="brainpassphraseshow" onchange="ninja.wallets.brainwallet.showToggle(this);" />
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label class="control-label" id="brainlabelconfirm" for="brainpassphraseconfirm">Confirm Passphrase: </label>
+                                <div class="controls">
+                                    <input class="input-xlarge" tabindex="2" type="password" id="brainpassphraseconfirm" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.brainwallet.view();" />
+                                    <button class="btn" tabindex="3" type="button" id="brainview" onclick="ninja.wallets.brainwallet.view();" ><i class="icon-refresh"></i> View</button>
+                                    <span id="brainalgorithm" class="notes pull-right">Algorithm: SHA256(passphrase)</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="brainkeyarea" class="keyarea">
+                        <div>
+                            <div id="brainqrcodepublic" class="qrcode_public"></div>
+                            <div class="pubaddress">
+                                <span class="label" id="brainlabelbitcoinaddress">Bitcoin Address:</span>
+                                <span class="output" id="brainbtcaddress"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="brainqrcodeprivate" class="qrcode_private"></div>
+                            <div class="privwif">
+                                <span class="label" id="brainlabelprivatekey">Private Key (Wallet Import Format):</span>
+                                <span class="output" id="brainbtcprivwif"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="vanityarea">
+                    <div id="vanitystep1label" class="commands expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
+                        <span><label id="vanitylabelstep1">Step 1 - Generate your "Step 1 Key Pair"</label> 
+                        <input class="btn" type="button" id="vanitynewkeypair" value="Generate" onclick="ninja.wallets.vanitywallet.generateKeyPair();" /></span>
+                        <div id="vanitystep1icon" class="more"></div>
+                    </div>
+                    <div id="vanitystep1area">
+                        <div>
+                            <span class="label" id="vanitylabelstep1publickey">Step 1 Public Key:</span>
+                            <div class="output pubkeyhex" id="vanitypubkey"></div>
+                            <br /><div class="notes" id="vanitylabelstep1pubnotes">Copy and paste the above into the Your-Part-Public-Key field in the Vanity Pool Website.</div>
+                        </div>
+                        <div>
+                            <span class="label" id="vanitylabelstep1privatekey">Step 1 Private Key:</span>
+                            <span class="output" id="vanityprivatekey"></span>
+                            <br /><div class="notes" id="vanitylabelstep1privnotes">Copy and paste the above Private Key field into a text file. Ideally save to an encrypted drive. You will need this to retrieve the Bitcoin Private Key once the Pool has found your prefix.</div>
+                        </div>
+                    </div>
+                    <div id="vanitystep2label" class="expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(2);">
+                        <span id="vanitylabelstep2calculateyourvanitywallet">Step 2 - Calculate your Vanity Wallet</span>
+                        <div id="vanitystep2icon" class="more"></div>
+                    </div>
+                    <div id="vanitystep2inputs">
+                        <div>
+                            <span id="vanitylabelenteryourpart">Enter Your Part Private Key (generated in Step 1 above and previously saved):</span>
+                            <br /><span class="notes" id="vanitylabelnote1">[NOTE: this input box can accept a public key or private key]</span>
+                        </div>
+                        <div><textarea id="vanityinput1" rows="2" cols="90" onfocus="this.select();"></textarea></div>
+                        <div>
+                            <span id="vanitylabelenteryourpoolpart">Enter Pool Part Private Key (from Vanity Pool):</span>
+                            <br /><span class="notes" id="vanitylabelnote2">[NOTE: this input box can accept a public key or private key]</span>
+                        </div>
+                        <div><textarea id="vanityinput2" rows="2" cols="90" onfocus="this.select();"></textarea></div>
+                        <div>
+                            <label class="radio" for="vanityradioadd" >
+                                <input type="radio" id="vanityradioadd" name="vanityradio" value="add" checked />
+                                <span id="vanitylabelradioadd">Add</span>
+                            </label> 
+                            <label class="radio" for="vanityradiomultiply">
+                                <input type="radio" id="vanityradiomultiply" name="vanityradio" value="multiply" />
+                                <span id="vanitylabelradiomultiply">Multiply</span>
+                            </label> 
+                        </div>
+                        <div><input class="btn" type="button" id="vanitycalc" value="Calculate Vanity Wallet" onclick="ninja.wallets.vanitywallet.addKeys();" /></div>
+                    </div>
+                    <div id="vanitystep2area">
+                        <div>
+                            <span class="label" id="vanitylabelbitcoinaddress">Vanity Bitcoin Address:</span>
+                            <span class="output" id="vanityaddress"></span>
+                            <br /><div class="notes" id="vanitylabelnotesbitcoinaddress">The above is your new address that should include your required prefix.</div>
+                        </div>
+					
+                        <div>
+                            <span class="label" id="vanitylabelpublickeyhex">Vanity Public Key (HEX):</span>
+                            <span class="output pubkeyhex" id="vanitypublickeyhex"></span>
+                            <br /><div class="notes" id="vanitylabelnotespublickeyhex">The above is the Public Key in hexadecimal format. </div>
+                        </div>
+
+                        <div>
+                            <span class="label" id="vanitylabelprivatekey">Vanity Private Key (WIF):</span>
+                            <span class="output" id="vanityprivatekeywif"></span>
+                            <br /><div class="notes" id="vanitylabelnotesprivatekey">The above is the Private Key to load into your wallet. </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="detailarea">
+                    <div id="detailcommands" class="commands">
+                        <form class="form-inline">
+                            <label id="detaillabelenterprivatekey" for="detailprivkey">Enter Private Key (any format)</label> 
+                            <input type="text" id="detailprivkey" value="" onfocus="this.select();" onkeypress="if (event.keyCode == 13) ninja.wallets.detailwallet.viewDetails();" />
+
+                            <button type="button" class="btn" id="detailview" onclick="ninja.wallets.detailwallet.viewDetails();" ><i class="icon-refresh"></i> View Details</button>
+                            <button type="button" class="btn pull-right" name="print" id="detailprint" onclick="window.print();"><i class="icon-print"></i> Print</button>
+                        </form>	
+                    </div>
+                    <div id="detailkeyarea">
+                        <div class="notes">
+                            <span id="detaillabelnote1">Your Bitcoin Private Key is a unique secret number that only you know. It can be encoded in a number of different formats. Below we show the Bitcoin Address and Public Key that corresponds to your Private Key as well as your Private Key in the most popular encoding formats (WIF, HEX, B64, MINI).</span>
+                            <br /><br />
+                            <span id="detaillabelnote2">Bitcoin v0.6+ stores public keys in compressed format. The client now also supports import and export of private keys with importprivkey/dumpprivkey. The format of the exported private key is determined by whether the address was generated in an old or new wallet.</span>
+                        </div>
+                        <div class="item">
+                            <div id="detailqrcodepublic" class="qrcode_public"></div>
+                            <span class="label" id="detaillabelbitcoinaddress">Bitcoin Address:</span>
+                            <span class="output" id="detailaddress"></span>
+                        </div>
+                        <br />
+                        <div class="item right">
+                            <div id="detailqrcodepubliccomp" class="qrcode_public"></div>
+                            <span class="label" id="detaillabelbitcoinaddresscomp">Bitcoin Address (compressed):</span>
+                            <span class="output" id="detailaddresscomp"></span>
+                        </div>
+                        <br />
+                        <div class="item">
+                            <span class="label" id="detaillabelpublickey">Public Key (130 characters [0-9A-F]):</span>
+                            <span class="output pubkeyhex" id="detailpubkey"></span>
+                        </div>
+                        <div class="item">
+                            <span class="label" id="detaillabelpublickeycomp">Public Key (compressed, 66 characters [0-9A-F]):</span>
+                            <span class="output" id="detailpubkeycomp"></span>
+                        </div>
+                        <hr />
+                        <div class="item">
+                            <div id="detailqrcodeprivate" class="qrcode_private"></div>
+                            <span class="label"><span id="detaillabelprivwif">Private Key WIF (51 characters base58, starts with a</span> <span id="detailwifprefix">'5'</span>):</span>
+                            <span class="output" id="detailprivwif"></span>
+                        </div>
+                        <br /><br />
+                        <div class="item right">
+                            <div id="detailqrcodeprivatecomp" class="qrcode_private"></div>
+                            <span class="label"><span id="detaillabelprivwifcomp">Private Key WIF (compressed, 52 characters base58, starts with a</span> <span id="detailcompwifprefix">'K' or 'L'</span>):</span>
+                            <span class="output" id="detailprivwifcomp"></span>
+                        </div>
+                        <br /><br />
+                        <div class="item">
+                            <span class="label" id="detaillabelprivhex">Private Key Hexadecimal Format (64 characters [0-9A-F]):</span>
+                            <span class="output" id="detailprivhex"></span>
+                        </div>
+                        <div class="item">
+                            <span class="label" id="detaillabelprivb64">Private Key Base64 (44 characters):</span>
+                            <span class="output" id="detailprivb64"></span>
+                        </div>
+                        <div class="item" style="display: none;" id="detailmini">
+                            <span class="label" id="detaillabelprivmini">Private Key Mini Format (22, 26 or 30 characters, starts with an 'S'):</span>
+                            <span class="output" id="detailprivmini"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
