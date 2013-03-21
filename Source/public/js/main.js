@@ -43,7 +43,8 @@ require([
         }
     }
 
-    addEvent(window.document.body, 'click', SecureRandom.seedTime);
+    addEvent(window.document.body, 'touchstart', ninja.seeder.touchSeed);
+    addEvent(window.document.body, 'click', ninja.seeder.seed);
     addEvent(window.document.body, 'keypress', SecureRandom.seedTime);
     addEvent(window.document.body, 'mousemove', ninja.seeder.seed);
     
@@ -58,7 +59,13 @@ require([
     if (culture !== undefined) {
         ninja.translator.translate(culture);
     }
-
+    else {
+        ninja.translator.update();
+    }
+    
+    console.log(ninja.getQueryString());
+    
+    
     // testnet, check if testnet edition should be activated
     var testnet = ninja.getQueryString().testnet;
     if (testnet == "true" || testnet == "1") {
@@ -72,6 +79,6 @@ require([
     }
 
     // if users does not move mouse after random amount of time then generate the key anyway.
-    // ninja.seeder.forceGenerate();
-    setTimeout(ninja.seeder.forceGenerate, ninja.seeder.seedLimit * 20);
+    ninja.seeder.scheduleForceGenerate();
+    //ninja.seeder.forceGenerate();
 });

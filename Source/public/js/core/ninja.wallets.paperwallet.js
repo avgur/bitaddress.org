@@ -12,7 +12,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                 limitElement.value = pageBreakAt;
             }
             if (document.getElementById("paperkeyarea").innerHTML === "") {
-                ninja.wallets.paperwallet.build(pageBreakAt, pageBreakAt, !document.getElementById('paperart').checked);
+                ninja.wallets.paperwallet.build(pageBreakAt, pageBreakAt, !document.getElementById('paperart').checked, 500);
             }
         },
 
@@ -26,13 +26,22 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
         useArtisticWallet: false,
         pageBreakAt: null,
 
-        build: function(numWallets, pageBreakAt, useArtisticWallet) {
+        build: function(numWallets, pageBreakAt, useArtisticWallet, timeout) {
+            $('#papergenerate').button('loading');
+            document.getElementById("paperkeyarea").style.visibility = "hidden";
+            setTimeout(function(){
+                ninja.wallets.paperwallet.buildCore(numWallets, pageBreakAt, useArtisticWallet);
+            }, (timeout || 20));
+        },
+        
+        buildCore: function(numWallets, pageBreakAt, useArtisticWallet) {
             if (numWallets < 1) numWallets = 1;
             ninja.wallets.paperwallet.remaining = numWallets;
             ninja.wallets.paperwallet.count = 0;
             ninja.wallets.paperwallet.useArtisticWallet = useArtisticWallet;
             ninja.wallets.paperwallet.pageBreakAt = pageBreakAt;
             document.getElementById("paperkeyarea").innerHTML = "";
+            document.getElementById("paperkeyarea").style.visibility = "visible";
             setTimeout(ninja.wallets.paperwallet.batch, 0);
         },
 
@@ -67,6 +76,10 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                 ninja.wallets.paperwallet.generateNewWallet(i);
                 ninja.wallets.paperwallet.remaining--;
                 setTimeout(ninja.wallets.paperwallet.batch, 0);
+            }
+            else
+            {
+                $('#papergenerate').button('reset');
             }
         },
 

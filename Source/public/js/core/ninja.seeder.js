@@ -6,10 +6,16 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
             return 50 + Math.floor(num);
         })(),
 
+        seedComlete: false,
+        
         seedCount: 0, // counter
 
         // seed function exists to wait for mouse movement to add more entropy before generating an address
         seed: function(evt) {
+            if(ninja.seeder.seedComlete){
+                return;
+            }
+            
             if (!evt) evt = window.event;
 
             // seed a bunch (minimum seedLimit) of times based on mouse moves
@@ -19,16 +25,64 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
 
             ninja.seeder.seedCount++;
             
+            
+            ninja.seeder.updateProgress();
+            
             // seeding is over now we generate and display the address
-            if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
+            if (ninja.seeder.seedCount >= ninja.seeder.seedLimit) {
                 // UI
                 document.getElementById("menu").style.visibility = "visible";
                 document.getElementById("generate").style.display = "none";
                 document.getElementById("wallets").style.visibility = "visible";
                 $('#menu a:first').tab('show');
+                
+                ninja.seeder.seedComlete = true;
             }
         },
+        
+        touchSeed: function(evt) {
+            if(ninja.seeder.seedComlete){
+                return;
+            }
+            if (!evt) evt = window.event;
+            if (evt && evt.touches) {
+                for(var i = 0; i < evt.touches.length; i++){
+                    var t = evt.touches[i];
+                    var e = { clientX: t.pageX, clientY: t.pageY };
+                    // users do not want to tap too many times
+                    for(var j = 0; j < 10; j++) {
+                        ninja.seeder.seed(e);
+                    }
+                }
+            }
+        },
+        
+        updateProgress: function(){
+            var percent = (ninja.seeder.seedCount * 100) / ninja.seeder.seedLimit;
+            percent = (percent > 100) ? 100 : percent;
+            $('#generate .bar').width(percent + "%");
+        },
 
+        scheduleForceGenerate: function() {
+            var counter = 0;
+            var multiplier = 5;
+            var repeat = function(){
+                if(ninja.seeder.seedCount >= ninja.seeder.seedLimit)
+                {
+                    ninja.seeder.seed();
+                }
+                else if(!ninja.seeder.seedComlete)
+                {
+                    counter++;
+                    ninja.seeder.seedCount = Math.max(counter/multiplier, ninja.seeder.seedCount);
+                    ninja.seeder.updateProgress();
+                    setTimeout(repeat, 100);
+                }
+            };
+            
+            repeat();
+        },
+        
         // If user has not moved the mouse or if they are on a mobile device
         // we will force the generation after a random period of time.
         forceGenerate: function() {
@@ -152,7 +206,8 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
     };
 
     ninja.getQueryString = function() {
-        var result = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
+        var li = location.search.lastIndexOf("?");
+        var result = {}, queryString = location.search.substring(li+1), re = /([^&=]+)=([^&]*)/g, m;
         while ((m = re.exec(queryString)) !== null) {
             result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
         }

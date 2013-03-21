@@ -2,7 +2,8 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.singlewallet = {
         open: function() {
             if (document.getElementById("btcaddress").innerHTML === "") {
-                ninja.wallets.singlewallet.generateNewAddressAndKey();
+                // dirty trick ;) 500 it is preferrable timeout for iPad 3
+                ninja.wallets.singlewallet.generateNewAddressAndKey(500);
             }
         },
 
@@ -10,7 +11,18 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
         },
 
         // generate bitcoin address and private key and update information in the HTML
-        generateNewAddressAndKey: function() {
+        generateNewAddressAndKey: function(timeout) {
+            $('#newaddress').button('loading');
+            document.getElementById("keyarea").style.visibility = "hidden";
+            // do not want my ui to be freezed
+            setTimeout(function(){
+                ninja.wallets.singlewallet.generateNewAddressAndKeyCore();
+                document.getElementById("keyarea").style.visibility = "visible";
+                $('#newaddress').button('reset');
+            }, (timeout || 20));
+        },
+        
+        generateNewAddressAndKeyCore: function() {    
             try {
                 var key = new Bitcoin.ECKey(false);
                 var bitcoinAddress = key.getBitcoinAddress();

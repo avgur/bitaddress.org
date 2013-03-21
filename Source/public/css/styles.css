@@ -1,9 +1,11 @@
-body { overflow-y: scroll; }
+body { overflow-y: scroll; padding-bottom: 20px; }
 
-.container { width: 940px; }
 #testnet { display: none;font-weight: bold; }
 #menu { visibility: hidden;margin-bottom: 0; }
-#wallets {visibility: hidden;}
+#wallets {visibility: hidden; }
+#generate { padding-right: 14px; }
+#generate .progress  .bar { background-color: #c09853; background-image: none; }
+
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .englishjson textarea { width: 894px; }
 
@@ -23,7 +25,7 @@ body { overflow-y: scroll; }
 
 .label { background-color: inherit;color: inherit;font-size: medium; font-weight: normal;-webkit-text-shadow: none; text-shadow: none;padding: 0; }
         
-.commands { border-bottom: 1px solid #ddd;  padding: 10px 10px; }
+.commands { border-bottom: 1px solid #ddd;  padding: 20px 10px; }
 .commands form { margin: 0; }
 .commands .control-group { margin-right: 5px; }
 
@@ -39,8 +41,11 @@ body { overflow-y: scroll; }
 .keyarea .qrcode_private { display: inline-block; float: right; }
 .keyarea .privwif { margin: 0; text-align: right; padding: 0 10px 0 0; float: right; }
 
+#singlearea .keyarea { visibility: hidden; min-height: 82px; }
+
 #paperarea input[type="checkbox"] { margin: 0; }
-#paperarea .keyarea { position: relative;}
+#paperkeyarea { min-height: 600px; }
+#paperarea .keyarea { position: relative; }
 #paperarea .keyarea.art { display: block; height: auto; border: 0; font-family: Ubuntu, Arial; padding: 0; margin: 0 0 4px 0; }
 #paperarea .artwallet .papersvg { width: 486px; height: 261px; border: 0; margin: 0; padding: 0; left: 0; }
 #paperarea .artwallet .qrcode_public {top: 52px; left: 17px; z-index: 100; margin: 0; float: none; display: block; position: absolute; background-color: #FFFFFF; padding: 5px 5px 2px 5px;} 

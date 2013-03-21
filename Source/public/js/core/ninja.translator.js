@@ -1,25 +1,54 @@
 define(["ninja"], function(ninja) {
+    $("#culturemenu a").click(function(e){
+        e.preventDefault();
+        var culture = $(this).attr('id').replace('culture', '');
+        if(culture != ninja.translator.currentCulture) {
+            ninja.translator.translate(culture);
+        }
+    });
+    
     ninja.translator = {
         currentCulture: "en",
-
+        defaultCulture: null,
+        
         translate: function(culture) {
             var dict = ninja.translator.translations[culture];
             if (dict) {
-                // set current culture
-                ninja.translator.currentCulture = culture;
-                // update menu UI
-                for (var cult in ninja.translator.translations) {
-                    document.getElementById("culture" + cult).parentNode.setAttribute("class", "");
-                }
-                document.getElementById("culture" + culture).parentNode.setAttribute("class", "active");
+                var id;
+                if(ninja.translator.defaultCulture === null) {
+                    ninja.translator.defaultCulture = ninja.translator.currentCulture;
+                    var defaultDict = ninja.translator.translations[ninja.translator.defaultCulture];
+                    for (id in dict) {
+                        if (document.getElementById(id) && document.getElementById(id).value) {
+                            defaultDict[id] = document.getElementById(id).value;
+                        } else if (document.getElementById(id)) {
+                            defaultDict[id] = document.getElementById(id).innerHTML;
+                        }
+                    }
+                }    
+                
+                ninja.translator.update(culture);
                 // apply translations
-                for (var id in dict) {
+                for (id in dict) {
                     if (document.getElementById(id) && document.getElementById(id).value) {
                         document.getElementById(id).value = dict[id];
                     } else if (document.getElementById(id)) {
                         document.getElementById(id).innerHTML = dict[id];
                     }
                 }
+            }
+        },
+        
+        update: function(culture) {
+            culture = culture || ninja.translator.currentCulture;
+            var dict = ninja.translator.translations[culture];
+            if (dict) {
+                ninja.translator.currentCulture = culture;
+                // update menu UI
+                for (var cult in ninja.translator.translations) {
+                    document.getElementById("culture" + cult).parentNode.setAttribute("class", "");
+                }
+                document.getElementById("culture" + culture).parentNode.setAttribute("class", "active");
             }
         },
 
