@@ -22,8 +22,9 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
             // seeding is over now we generate and display the address
             if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
                 // UI
-                document.getElementById("generate").style.display = "none";
                 document.getElementById("menu").style.visibility = "visible";
+                document.getElementById("generate").style.display = "none";
+                document.getElementById("wallets").style.visibility = "visible";
                 $('#menu a:first').tab('show');
             }
         },

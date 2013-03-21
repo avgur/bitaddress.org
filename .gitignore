@@ -1,0 +1,11 @@
+node_modules
+autobuild/out
+
+*.log
+*.pid
+
+pids
+logs
+
+*.suo
+*.user

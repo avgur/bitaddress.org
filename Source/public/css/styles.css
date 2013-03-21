@@ -3,7 +3,7 @@ body { overflow-y: scroll; }
 .container { width: 940px; }
 #testnet { display: none;font-weight: bold; }
 #menu { visibility: hidden;margin-bottom: 0; }
-        
+#wallets {visibility: hidden;}
 .englishjson { text-align: center; padding: 40px 0 20px 0; }
 .englishjson textarea { width: 894px; }
 

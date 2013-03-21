@@ -6,7 +6,7 @@ require.config({
         "BigInteger": "libs/crypto/biginteger",
         "QRCode": "libs/qrcode",
         "Bitcoin": "libs/bitcoin/bitcoin",
-        "BitcoinLib": "libs/bitcoin/",
+        "BitcoinLib": "libs/bitcoin",
         "ninja": "core/ninja"
     }
 });
