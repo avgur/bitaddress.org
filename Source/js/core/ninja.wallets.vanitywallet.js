@@ -1,11 +1,9 @@
 define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.vanitywallet = {
         open: function() {
-            document.getElementById("vanityarea").style.display = "block";
         },
 
         close: function() {
-            document.getElementById("vanityarea").style.display = "none";
             document.getElementById("vanitystep1area").style.display = "none";
             document.getElementById("vanitystep2area").style.display = "none";
             document.getElementById("vanitystep1icon").setAttribute("class", "more");

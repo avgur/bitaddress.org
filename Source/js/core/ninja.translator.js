@@ -9,9 +9,9 @@ define(["ninja"], function(ninja) {
                 ninja.translator.currentCulture = culture;
                 // update menu UI
                 for (var cult in ninja.translator.translations) {
-                    document.getElementById("culture" + cult).setAttribute("class", "");
+                    document.getElementById("culture" + cult).parentNode.setAttribute("class", "");
                 }
-                document.getElementById("culture" + culture).setAttribute("class", "selected");
+                document.getElementById("culture" + culture).parentNode.setAttribute("class", "active");
                 // apply translations
                 for (var id in dict) {
                     if (document.getElementById(id) && document.getElementById(id).value) {

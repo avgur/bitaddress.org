@@ -1,12 +1,10 @@
 define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.detailwallet = {
         open: function() {
-            document.getElementById("detailarea").style.display = "block";
             document.getElementById("detailprivkey").focus();
         },
 
         close: function() {
-            document.getElementById("detailarea").style.display = "none";
         },
 
         viewDetails: function() {

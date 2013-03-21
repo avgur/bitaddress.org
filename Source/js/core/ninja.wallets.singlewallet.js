@@ -4,11 +4,9 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
             if (document.getElementById("btcaddress").innerHTML == "") {
                 ninja.wallets.singlewallet.generateNewAddressAndKey();
             }
-            document.getElementById("singlearea").style.display = "block";
         },
 
         close: function() {
-            document.getElementById("singlearea").style.display = "none";
         },
 
         // generate bitcoin address and private key and update information in the HTML

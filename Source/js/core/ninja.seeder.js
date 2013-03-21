@@ -21,8 +21,8 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
             
             // seeding is over now we generate and display the address
             if (ninja.seeder.seedCount == ninja.seeder.seedLimit) {
-                ninja.wallets.singlewallet.open();
                 // UI
+                $('#menu a:first').tab('show');
                 document.getElementById("generate").style.display = "none";
                 document.getElementById("menu").style.visibility = "visible";
             }
@@ -143,16 +143,11 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
         }
     };
 
-    ninja.tabSwitch = function(walletTab) {
-        if (walletTab.className.indexOf("selected") == -1) {
-            // unselect all tabs
-            for (var wType in ninja.wallets) {
-                document.getElementById(wType).className = "tab";
-                ninja.wallets[wType].close();
-            }
-            walletTab.className += " selected";
-            ninja.wallets[walletTab.getAttribute("id")].open();
+    ninja.tabSwitch = function (walletTab) {
+        for (var wType in ninja.wallets) {
+            ninja.wallets[wType].close();
         }
+        ninja.wallets[walletTab.getAttribute("id")].open();
     };
 
     ninja.getQueryString = function() {
@@ -162,5 +157,9 @@ define(["ninja", "Crypto", "SecureRandom", "QRCode"], function (ninja, Crypto, S
         }
         return result;
     };
-    
+
+    $('#menu a[data-toggle="tab"]').on('shown', function (e) {
+        ninja.tabSwitch(e.target);
+    });
+
 });

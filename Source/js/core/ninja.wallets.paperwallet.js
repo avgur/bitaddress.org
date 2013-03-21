@@ -1,9 +1,7 @@
 define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.paperwallet = {
         open: function() {
-            document.getElementById("main").setAttribute("class", "paper"); // add 'paper' class to main div
             var paperArea = document.getElementById("paperarea");
-            paperArea.style.display = "block";
             var perPageLimitElement = document.getElementById("paperlimitperpage");
             var limitElement = document.getElementById("paperlimit");
             var pageBreakAt = (ninja.wallets.paperwallet.useArtisticWallet) ? ninja.wallets.paperwallet.pageBreakAtArtisticDefault : ninja.wallets.paperwallet.pageBreakAtDefault;
@@ -19,15 +17,13 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
         },
 
         close: function() {
-            document.getElementById("paperarea").style.display = "none";
-            document.getElementById("main").setAttribute("class", ""); // remove 'paper' class from main div
         },
 
         remaining: null, // use to keep track of how many addresses are left to process when building the paper wallet
         count: 0,
         pageBreakAtDefault: 7,
         pageBreakAtArtisticDefault: 3,
-        useArtisticWallet: true,
+        useArtisticWallet: false,
         pageBreakAt: null,
 
         build: function(numWallets, pageBreakAt, useArtisticWallet) {
@@ -63,7 +59,7 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
                         document.getElementById("paperkeyarea").appendChild(pBreak);
                         div.style.pageBreakBefore = "always";
                         if (!ninja.wallets.paperwallet.useArtisticWallet) {
-                            div.style.borderTop = "2px solid green";
+                            div.style.borderTop = "2px solid #ddd";
                         }
                     }
                 }

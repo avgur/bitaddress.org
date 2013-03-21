@@ -1,12 +1,10 @@
 define(["ninja", "Bitcoin", "Crypto"], function (ninja, Bitcoin, Crypto) {
     ninja.wallets.brainwallet = {
         open: function() {
-            document.getElementById("brainarea").style.display = "block";
             document.getElementById("brainpassphrase").focus();
         },
 
         close: function() {
-            document.getElementById("brainarea").style.display = "none";
         },
 
         minPassphraseLength: 15,

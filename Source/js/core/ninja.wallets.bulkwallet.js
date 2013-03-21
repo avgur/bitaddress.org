@@ -1,7 +1,6 @@
 define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
     ninja.wallets.bulkwallet = {
-        open: function() {
-            document.getElementById("bulkarea").style.display = "block";
+        open: function () {
             // show a default CSV list if the text area is empty
             if (document.getElementById("bulktextarea").value == "") {
                 // return control of the thread to the browser to render the tab switch UI then build a default CSV list
@@ -10,7 +9,6 @@ define(["ninja", "Bitcoin"], function (ninja, Bitcoin) {
         },
 
         close: function() {
-            document.getElementById("bulkarea").style.display = "none";
         },
 
         // use this function to bulk generate addresses
