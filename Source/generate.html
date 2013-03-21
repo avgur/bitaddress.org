@@ -2,8 +2,6 @@
 <html>
 <head>
 	<!--
-	Donation Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
-
 	Notice of Copyrights and Licenses:
 	***********************************
 	The bitaddress.org project, software and embedded resources are copyright bitaddress.org. 
@@ -17,12 +15,12 @@
 	JavaScript function		License
 	*******************		***************
 	Array.prototype.map		Public Domain
-	window.Crypto			BSD License
-	window.SecureRandom		BSD License
-	window.EllipticCurve	BSD License
-	window.BigInteger		BSD License
-	window.QRCode			MIT License
-	window.Bitcoin			MIT License
+	      .Crypto			BSD License
+	      .SecureRandom		BSD License
+	      .EllipticCurve	BSD License
+	      .BigInteger		BSD License
+	      .QRCode			MIT License
+	      .Bitcoin			MIT License
 
 	The bitaddress.org software is available under The MIT License (MIT)
 	Copyright (c) 2011-2012 bitaddress.org
@@ -41,20 +39,16 @@
 	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
 	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	GitHub Repository: https://github.com/pointbiz/bitaddress.org
 	-->
 
 	<title>Bitcoin Wallet Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-    <!--<script src="js/libs/bootstrap/bootstrap.js"></script>-->
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src="js/libs/crypto/map.js" type="text/javascript" ></script>
     <script src="js/libs/require/require.js" type="text/javascript" data-main="js/main" ></script>
     
-    <!--<link href="css/bootstrap.css" rel="stylesheet" media="screen">-->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 </head>
@@ -131,7 +125,6 @@
                     </div>
                     <div id="paperkeyarea"></div>
                 </div>
-			
                 <div class="tab-pane" id="bulkarea">
                     <div id="bulkcommands" class="commands">
                         <form class="form-inline">
@@ -178,7 +171,6 @@
                         </div>
                     </div>
                 </div>
-			
                 <div class="tab-pane" id="brainarea">
                     <div id="braincommands" class="commands">
                         <form class="form-horizontal">
@@ -220,7 +212,6 @@
                         </div>
                     </div>
                 </div>
-			
                 <div class="tab-pane" id="vanityarea">
                     <div id="vanitystep1label" class="commands expandable" onclick="ninja.wallets.vanitywallet.openCloseStep(1);">
                         <span><label id="vanitylabelstep1">Step 1 - Generate your "Step 1 Key Pair"</label> 
@@ -286,7 +277,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="tab-pane" id="detailarea">
                     <div id="detailcommands" class="commands">
                         <form class="form-inline">
